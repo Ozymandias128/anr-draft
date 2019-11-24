@@ -21,7 +21,8 @@ with open(HERE + '/secrets.json', 'r') as f:
     tokens = json.loads(f.read())
     API_TOKEN = tokens['api_token']
     VERIFICATION_TOKEN = tokens['verification_token']
-
+    
+# SLACK METHOD - REPLACE WITH DISCORD RED METHOD
 client = slack.WebClient(token=API_TOKEN)
 
 DRAFTS = {}
@@ -249,6 +250,7 @@ def open_new_pack(draft_id):
                 card_text, card['title'], button_value)
             card_blocks.append(pick_block)
             card_blocks.append(blocks.divider())
+        # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
         client.chat_postMessage(
             channel=get_player_dm_id(player),
             blocks=card_blocks
@@ -297,10 +299,12 @@ def open_next_pack(draft_id, player):
             card_text, card['title'], button_value)
         card_blocks.append(pick_block)
         card_blocks.append(blocks.divider())
+    # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
     client.chat_postMessage(
         channel=get_player_dm_id(player),
         text='Here is your next pack.'
     )
+    # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
     client.chat_postMessage(
         channel=get_player_dm_id(player),
         blocks=card_blocks
@@ -326,15 +330,18 @@ def open_next_pack_or_wait(payload):
     if need_new_pack:
         if draft_finished(draft_id):
             for player in get_players(draft_id):
+                # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
                 client.chat_postMessage(
                     channel=get_player_dm_id(player),
                     text='The draft is complete! Here are your picks:'
                 )
                 picks = get_picks(draft_id, player)
+                # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
                 client.chat_postMessage(
                     channel=get_player_dm_id(player),
                     text=format_picks('Corp:\n\n', picks['corp'])
                 )
+                # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
                 client.chat_postMessage(
                     channel=get_player_dm_id(player),
                     text=format_picks('Runner:\n\n', picks['runner'])
@@ -433,6 +440,7 @@ def cancel_draft():
 
 def _cancel_draft(draft_id):
     for player in get_players(draft_id):
+        # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
         client.chat_postMessage(
             channel=get_player_dm_id(player),
             text=(
@@ -464,6 +472,7 @@ def start_draft():
         assign_seat_numbers(draft_id)
         DRAFTS[draft_id]['metadata']['has_started'] = True
         for player in get_players(draft_id):
+            # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
             client.chat_postMessage(
                 channel=get_player_dm_id(player),
                 text='Welcome to the draft! Here is your first pack. Good luck!'
@@ -491,6 +500,7 @@ def join_draft():
         creator_name = get_creator(draft_id)
         player_dm_channel = get_player_dm_id(creator_name)
         num_players = get_num_players(draft_id)
+        # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
         client.chat_postMessage(
             channel=player_dm_channel,
             text=(
@@ -525,6 +535,7 @@ def leave_draft():
         creator_name = get_creator(draft_id)
         player_dm_channel = get_player_dm_id(creator_name)
         num_players = get_num_players(draft_id)
+        # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
         client.chat_postMessage(
             channel=player_dm_channel,
             text=(
@@ -547,15 +558,18 @@ def picks():
         if player_name not in PLAYERS:
             return 'You are not enrolled in a draft.'
         draft_id = PLAYERS[player_name]['draft_id']
+        # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
         client.chat_postMessage(
             channel=get_player_dm_id(player_name),
             text='Here are your picks so far:'
         )
         picks = get_picks(draft_id, player_name)
+        # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
         client.chat_postMessage(
             channel=get_player_dm_id(player_name),
             text=format_picks('Corp:\n\n', picks['corp'])
         )
+        # SLACK METHOD - REPLACE WITH DISCORD RED METHOD
         client.chat_postMessage(
             channel=get_player_dm_id(player_name),
             text=format_picks('Runner:\n\n', picks['runner'])

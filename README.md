@@ -1,5 +1,9 @@
 # ANR Draft
 
+Forked from westonodom to port functionality from Slack to Discord Red
+
+Experiment simply pushing same formatting and function to Discord
+
 ## Actions
 
 #### Create Draft
